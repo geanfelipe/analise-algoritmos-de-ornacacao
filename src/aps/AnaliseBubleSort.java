@@ -12,7 +12,7 @@ public class AnaliseBubleSort extends Analise {
 
 	public static void main(final String[] args) {
 		
-		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresInteiros();
 		AnaliseBubleSort analiseBubleSort = new AnaliseBubleSort();
 		
 		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
@@ -44,6 +44,10 @@ public class AnaliseBubleSort extends Analise {
 
 			}
 		}		
+	}
+
+	@Override
+	void sort(float[] arr) {
 	}
 
 }

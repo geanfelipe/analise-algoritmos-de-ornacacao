@@ -1,9 +1,18 @@
 package aps;
 
-public class AnaliseHeapSort {
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class AnaliseHeapSort extends Analise {
+	
+	public AnaliseHeapSort() {
+		super("HeapSort");
+	}
+
 	// To heapify a subtree rooted with node i which is
 	// an index in arr[]. n is size of heap
-	static void heapify(final int arr[], final int n, final int i) {
+	void heapify(final int arr[], final int n, final int i) {
 		int largest = i; // Initialize largest as root
 		final int l = 2 * i + 1; // left = 2*i + 1
 		final int r = 2 * i + 2; // right = 2*i + 2
@@ -21,7 +30,8 @@ public class AnaliseHeapSort {
 			final int swap = arr[i];
 			arr[i] = arr[largest];
 			arr[largest] = swap;
-
+			this.comparacoesPorTamanhoDoVetor.compute(arr.length, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
+			
 			// Recursively heapify the affected sub-tree
 			heapify(arr, n, largest);
 		}
@@ -29,13 +39,20 @@ public class AnaliseHeapSort {
 
 	// Driver code
 	public static void main(final String args[]) {
-		final int arr[] = { 12, 11, 13, 5, 6, 7 };
-		final int n = arr.length;
-
-		sort(arr);
-
-		System.out.println("Sorted array is");
-		printArray(arr);
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresInteiros();
+		AnaliseHeapSort analiseHeapSort = new AnaliseHeapSort();
+		
+		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
+			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
+			 List<int[]> listaCom50VetoresDeNPosicoes = mapaComOsValores.getValue();
+			 
+				for (int[] vetor: listaCom50VetoresDeNPosicoes) {
+					analiseHeapSort.sort(vetor);
+				}
+				Integer comparacoes = analiseHeapSort.comparacoesPorTamanhoDoVetor.get(tamanhoDoVetor);
+				double mediaDeComparacoes = comparacoes/tamanhoDoVetor;
+				System.out.println("Testado algoritmo "+analiseHeapSort.nomeDoAlgoritmo+"para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
+		 }
 	}
 
 	/* A utility function to print array of size n */
@@ -46,7 +63,8 @@ public class AnaliseHeapSort {
 		System.out.println();
 	}
 
-	static void sort(final int arr[]) {
+	@Override
+	void sort(final int arr[]) {
 		final int n = arr.length;
 
 		// Build heap (rearrange array)
@@ -59,10 +77,16 @@ public class AnaliseHeapSort {
 			final int temp = arr[0];
 			arr[0] = arr[i];
 			arr[i] = temp;
-
+			
 			// call max heapify on the reduced heap
 			heapify(arr, i, 0);
 		}
+	}
+
+	@Override
+	void sort(float[] arr) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

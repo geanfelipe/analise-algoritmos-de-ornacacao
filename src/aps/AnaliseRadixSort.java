@@ -42,7 +42,7 @@ public class AnaliseRadixSort extends Analise{
 	}
 
 	public static void main(final String[] args) {
-		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresInteiros();
 		AnaliseRadixSort analiseRadixSort = new AnaliseRadixSort();
 		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
 			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
@@ -71,6 +71,12 @@ public class AnaliseRadixSort extends Analise{
 
 		for (int exp = 1; m / exp > 0; exp *= 10)
 			this.countSort(arr, n, exp);		
+	}
+
+	@Override
+	void sort(float[] arr) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,19 +1,36 @@
 package aps;
 
-public class AnaliseCountSort {
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class AnaliseCountSort extends Analise{
+	
+	public AnaliseCountSort() {
+		super("CountSort");
+	}
 	// Driver method
 	public static void main(final String args[]) {
-		final int[] arr = { 14, 1, 4, 1, 2, 7, 5, 2, 10, 12, 11, 10, 12 };
 
-		sort(arr);
-
-		System.out.print("Sorted character array is ");
-		for (int i = 0; i < arr.length; ++i)
-			System.out.println(arr[i]);
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresInteiros();
+		AnaliseCountSort analiseCountSort = new AnaliseCountSort();
+		
+		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
+			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
+			 List<int[]> listaCom50VetoresDeNPosicoes = mapaComOsValores.getValue();
+			 
+				for (int[] vetor: listaCom50VetoresDeNPosicoes) {
+					analiseCountSort.sort(vetor);
+				}
+				Integer comparacoes = analiseCountSort.comparacoesPorTamanhoDoVetor.get(tamanhoDoVetor);
+				double mediaDeComparacoes = comparacoes/tamanhoDoVetor;
+				System.out.println("Testado algoritmo "+analiseCountSort.nomeDoAlgoritmo+"para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
+		 }
+		 
 	}
 
-	// Java implementation of Counting Sort
-	static void sort(final int[] arr) {
+	@Override
+	void sort(final int[] arr) {
 		final int n = arr.length;
 
 		// The output character array that will have sorted arr
@@ -33,18 +50,26 @@ public class AnaliseCountSort {
 		// position of this character in output array
 		for (int i = 1; i <= 255; ++i)
 			count[i] += count[i - 1];
+			this.comparacoesPorTamanhoDoVetor.compute(arr.length, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
 
 		// Build the output character array
 		// To make it stable we are operating in reverse order.
 		for (int i = n - 1; i >= 0; i--) {
 			output[count[arr[i]] - 1] = arr[i];
 			--count[arr[i]];
+			this.comparacoesPorTamanhoDoVetor.compute(arr.length, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
 		}
 
 		// Copy the output array to arr, so that arr now
 		// contains sorted characters
 		for (int i = 0; i < n; ++i)
 			arr[i] = output[i];
+			this.comparacoesPorTamanhoDoVetor.compute(arr.length, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
+	}
+	@Override
+	void sort(float[] arr) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

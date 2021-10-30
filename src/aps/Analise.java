@@ -14,4 +14,6 @@ public abstract class Analise {
 	}
 	
 	abstract void sort(final int[] arr);
+	
+	abstract void sort(final float[] arr);
 }

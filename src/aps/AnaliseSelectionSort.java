@@ -13,7 +13,7 @@ public class AnaliseSelectionSort extends Analise {
 	// Driver code to test above
 	public static void main(final String args[]) {
 		
-		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresInteiros();
 		AnaliseSelectionSort analiseSelectionSort = new AnaliseSelectionSort();
 		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
 			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
@@ -56,6 +56,12 @@ public class AnaliseSelectionSort extends Analise {
 			arr[min_idx] = arr[i];
 			arr[i] = temp;
 		}
+	}
+
+	@Override
+	void sort(float[] arr) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -12,9 +12,7 @@ public class AnaliseInsertionSort extends Analise{
 	
 	// Driver method
 	public static void main(final String args[]) {
-		final int arr[] = { 12, 11, 13, 5, 6 };
-
-		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresInteiros();
 		AnaliseInsertionSort analiseInserionSort = new AnaliseInsertionSort();
 		
 		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
@@ -53,9 +51,16 @@ public class AnaliseInsertionSort extends Analise{
 			while (j >= 0 && arr[j] > key) {
 				arr[j + 1] = arr[j];
 				j = j - 1;
+				this.comparacoesPorTamanhoDoVetor.compute(arr.length, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
 			}
 			arr[j + 1] = key;
 		}
+	}
+
+	@Override
+	void sort(float[] arr) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

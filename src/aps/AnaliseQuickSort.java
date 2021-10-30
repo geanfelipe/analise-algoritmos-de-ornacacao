@@ -12,7 +12,7 @@ public class AnaliseQuickSort extends Analise {
 
 	// Driver Code
 	public static void main(final String[] args) {
-		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresInteiros();
 		AnaliseQuickSort analiseQuickSort = new AnaliseQuickSort();
 		
 		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
@@ -97,6 +97,12 @@ public class AnaliseQuickSort extends Analise {
 	void sort(int[] arr) {
 		int n = arr.length;
 		quickSort(arr, 0, n - 1);
+		
+	}
+
+	@Override
+	void sort(float[] arr) {
+		// TODO Auto-generated method stub
 		
 	}
 }

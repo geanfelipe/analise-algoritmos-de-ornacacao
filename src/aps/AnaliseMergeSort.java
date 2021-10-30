@@ -12,7 +12,7 @@ public class AnaliseMergeSort extends Analise{
 
 	// Driver code
 	public static void main(final String args[]) {
-		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresInteiros();
 		AnaliseMergeSort analiseMergeSort = new AnaliseMergeSort();
 		
 		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
@@ -106,5 +106,11 @@ public class AnaliseMergeSort extends Analise{
 	@Override
 	void sort(int[] arr) {
 		mergeSort(arr, 0, arr.length - 1);
+	}
+
+	@Override
+	void sort(float[] arr) {
+		// TODO Auto-generated method stub
+		
 	}
 }

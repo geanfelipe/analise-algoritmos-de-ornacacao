@@ -1,13 +1,20 @@
 package aps;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
+import java.util.Map.Entry;
 
-public class AnaliseBucketSort {
+public class AnaliseBucketSort extends Analise {
+	
+	public AnaliseBucketSort() {
+		super("BucketSort");
+	}
 
 	// Function to sort arr[] of size n
 	// using bucket sort
-	static void bucketSort(final float arr[], final int n) {
+	void bucketSort(final float arr[], final int n) {
 		if (n <= 0)
 			return;
 
@@ -35,6 +42,7 @@ public class AnaliseBucketSort {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < buckets[i].size(); j++) {
 				arr[index++] = buckets[i].get(j);
+				this.comparacoesPorTamanhoDoVetor.compute(arr.length, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
 			}
 		}
 	}
@@ -43,13 +51,33 @@ public class AnaliseBucketSort {
 	public static void main(final String args[]) {
 		final float arr[] = { (float) 0.897, (float) 0.565, (float) 0.656, (float) 0.1234, (float) 0.665,
 				(float) 0.3434 };
+		
+		Map<Integer, List<float[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerarVetoresDecimais();
+		AnaliseBucketSort analiseBucketSort = new AnaliseBucketSort();
+		
+		 for(Entry<Integer, List<float[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
+			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
+			 List<float[]> listaCom50VetoresDeNPosicoes = mapaComOsValores.getValue();
+			 
+				for (float[] vetor: listaCom50VetoresDeNPosicoes) {
+					analiseBucketSort.sort(vetor);
+				}
+				Integer comparacoes = analiseBucketSort.comparacoesPorTamanhoDoVetor.get(tamanhoDoVetor);
+				double mediaDeComparacoes = comparacoes/tamanhoDoVetor;
+				System.out.println("Testado algoritmo "+analiseBucketSort.nomeDoAlgoritmo+"para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
+		 }
 
+	}
+
+	@Override
+	void sort(int[] arr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void sort(float[] arr) {
 		final int n = arr.length;
 		bucketSort(arr, n);
-
-		System.out.println("Sorted array is ");
-		for (final float el : arr) {
-			System.out.print(el + " ");
-		}
 	}
 }
