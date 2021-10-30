@@ -1,8 +1,35 @@
 package aps;
 
-public class AnaliseBubleSort {
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-	static void bubbleSort(final int[] arr) {
+public class AnaliseBubleSort extends Analise {
+	
+	public AnaliseBubleSort() {
+		super("BubleSort");
+	}
+
+	public static void main(final String[] args) {
+		
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		AnaliseBubleSort analiseBubleSort = new AnaliseBubleSort();
+		
+		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
+			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
+			 List<int[]> listaCom50VetoresDeNPosicoes = mapaComOsValores.getValue();
+			 
+				for (int[] vetor: listaCom50VetoresDeNPosicoes) {
+					analiseBubleSort.sort(vetor);
+				}
+				Integer comparacoes = analiseBubleSort.comparacoesPorTamanhoDoVetor.get(tamanhoDoVetor);
+				double mediaDeComparacoes = comparacoes/tamanhoDoVetor;
+				System.out.println("Testado algoritmo "+analiseBubleSort.nomeDoAlgoritmo+"para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
+		 }
+	}
+
+	@Override
+	void sort(final int[] arr) {
 		final int n = arr.length;
 		int temp = 0;
 		for (int i = 0; i < n; i++) {
@@ -12,29 +39,11 @@ public class AnaliseBubleSort {
 					temp = arr[j - 1];
 					arr[j - 1] = arr[j];
 					arr[j] = temp;
+					this.comparacoesPorTamanhoDoVetor.compute(n, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
 				}
 
 			}
-		}
-
-	}
-
-	public static void main(final String[] args) {
-		final int arr[] = { 3, 60, 35, 2, 45, 320, 5 };
-
-		System.out.println("Array Before Bubble Sort");
-		for (int i = 0; i < arr.length; i++) {
-			System.out.print(arr[i] + " ");
-		}
-		System.out.println();
-
-		bubbleSort(arr);// sorting array elements using bubble sort
-
-		System.out.println("Array After Bubble Sort");
-		for (int i = 0; i < arr.length; i++) {
-			System.out.print(arr[i] + " ");
-		}
-
+		}		
 	}
 
 }

@@ -1,15 +1,31 @@
 package aps;
 
-public class AnaliseQuickSort {
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class AnaliseQuickSort extends Analise {
+	
+	public AnaliseQuickSort() {
+		super("QuickSort");
+	}
 
 	// Driver Code
 	public static void main(final String[] args) {
-		final int[] arr = { 10, 7, 8, 9, 1, 5 };
-		final int n = arr.length;
-
-		quickSort(arr, 0, n - 1);
-		System.out.println("Sorted array: ");
-		printArray(arr, n);
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		AnaliseQuickSort analiseQuickSort = new AnaliseQuickSort();
+		
+		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
+			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
+			 List<int[]> listaCom50VetoresDeNPosicoes = mapaComOsValores.getValue();
+			 
+				for (int[] vetor: listaCom50VetoresDeNPosicoes) {
+					analiseQuickSort.sort(vetor);
+				}
+				Integer comparacoes = analiseQuickSort.comparacoesPorTamanhoDoVetor.get(tamanhoDoVetor);
+				double mediaDeComparacoes = comparacoes/tamanhoDoVetor;
+				System.out.println("Testado algoritmo "+analiseQuickSort.nomeDoAlgoritmo+"para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
+		 }
 	}
 
 	/*
@@ -17,7 +33,7 @@ public class AnaliseQuickSort {
 	 * correct position in sorted array, and places all smaller (smaller than pivot)
 	 * to left of pivot and all greater elements to right of pivot
 	 */
-	static int partition(final int[] arr, final int low, final int high) {
+	 int partition(final int[] arr, final int low, final int high) {
 
 		// pivot
 		final int pivot = arr[high];
@@ -37,6 +53,7 @@ public class AnaliseQuickSort {
 				// smaller element
 				i++;
 				swap(arr, i, j);
+				this.comparacoesPorTamanhoDoVetor.compute(arr.length, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
 			}
 		}
 		swap(arr, i + 1, high);
@@ -44,7 +61,7 @@ public class AnaliseQuickSort {
 	}
 
 	// Function to print an array
-	static void printArray(final int[] arr, final int size) {
+	void printArray(final int[] arr, final int size) {
 		for (int i = 0; i < size; i++)
 			System.out.print(arr[i] + " ");
 
@@ -55,7 +72,7 @@ public class AnaliseQuickSort {
 	 * The main function that implements QuickSort arr[] --> Array to be sorted, low
 	 * --> Starting index, high --> Ending index
 	 */
-	static void quickSort(final int[] arr, final int low, final int high) {
+	void quickSort(final int[] arr, final int low, final int high) {
 		if (low < high) {
 
 			// pi is partitioning index, arr[p]
@@ -70,9 +87,16 @@ public class AnaliseQuickSort {
 	}
 
 	// A utility function to swap two elements
-	static void swap(final int[] arr, final int i, final int j) {
+	 void swap(final int[] arr, final int i, final int j) {
 		final int temp = arr[i];
 		arr[i] = arr[j];
 		arr[j] = temp;
+	}
+	
+	@Override
+	void sort(int[] arr) {
+		int n = arr.length;
+		quickSort(arr, 0, n - 1);
+		
 	}
 }

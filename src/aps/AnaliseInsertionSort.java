@@ -1,18 +1,37 @@
 package aps;
 
-public class AnaliseInsertionSort {
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+public class AnaliseInsertionSort extends Analise{
+
+	public AnaliseInsertionSort() {
+		super("InsertionSort");
+	}
+	
 	// Driver method
 	public static void main(final String args[]) {
 		final int arr[] = { 12, 11, 13, 5, 6 };
 
-		sort(arr);
-
-		printArray(arr);
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		AnaliseInsertionSort analiseInserionSort = new AnaliseInsertionSort();
+		
+		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
+			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
+			 List<int[]> listaCom50VetoresDeNPosicoes = mapaComOsValores.getValue();
+			 
+				for (int[] vetor: listaCom50VetoresDeNPosicoes) {
+					analiseInserionSort.sort(vetor);
+				}
+				Integer comparacoes = analiseInserionSort.comparacoesPorTamanhoDoVetor.get(tamanhoDoVetor);
+				double mediaDeComparacoes = comparacoes/tamanhoDoVetor;
+				System.out.println("Testado algoritmo "+analiseInserionSort.nomeDoAlgoritmo+"para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
+		 }
 	}
 
 	/* A utility function to print array of size n */
-	static void printArray(final int arr[]) {
+	 void printArray(final int arr[]) {
 		final int n = arr.length;
 		for (int i = 0; i < n; ++i)
 			System.out.print(arr[i] + " ");
@@ -20,7 +39,8 @@ public class AnaliseInsertionSort {
 		System.out.println();
 	}
 
-	static void sort(final int arr[]) {
+	@Override
+	void sort(final int arr[]) {
 		final int n = arr.length;
 		for (int i = 1; i < n; ++i) {
 			final int key = arr[i];

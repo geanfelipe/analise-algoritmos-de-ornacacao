@@ -1,12 +1,31 @@
 package aps;
 
-public class AnaliseSelectionSort {
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class AnaliseSelectionSort extends Analise {
+	
+	public AnaliseSelectionSort() {
+		super("SelectionSort");
+	}
+	
 	// Driver code to test above
 	public static void main(final String args[]) {
-		final int arr[] = { 64, 25, 12, 22, 11 };
-		sort(arr);
-		System.out.println("Sorted array");
-		printArray(arr);
+		
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
+		AnaliseSelectionSort analiseSelectionSort = new AnaliseSelectionSort();
+		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
+			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
+			 List<int[]> listaCom50VetoresDeNPosicoes = mapaComOsValores.getValue();
+			 
+				for (int[] vetor: listaCom50VetoresDeNPosicoes) {
+					analiseSelectionSort.sort(vetor);
+				}
+				Integer comparacoes = analiseSelectionSort.comparacoesPorTamanhoDoVetor.get(tamanhoDoVetor);
+				double mediaDeComparacoes = comparacoes/tamanhoDoVetor;
+				System.out.println("Testado algoritmo "+  analiseSelectionSort.nomeDoAlgoritmo +" para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
+		 }
 	}
 
 	// Prints the array
@@ -17,7 +36,7 @@ public class AnaliseSelectionSort {
 		System.out.println();
 	}
 
-	static void sort(final int arr[]) {
+	void sort(final int arr[]) {
 		final int n = arr.length;
 
 		// One by one move boundary of unsorted subarray
@@ -25,8 +44,11 @@ public class AnaliseSelectionSort {
 			// Find the minimum element in unsorted array
 			int min_idx = i;
 			for (int j = i + 1; j < n; j++)
-				if (arr[j] < arr[min_idx])
+				
+				if (arr[j] < arr[min_idx]) {
 					min_idx = j;
+					this.comparacoesPorTamanhoDoVetor.compute(n, (tamanhoDoVetor,trocas) -> trocas == null ? 1 : trocas + 1);
+				}
 
 			// Swap the found minimum element with the first
 			// element

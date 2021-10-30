@@ -1,18 +1,16 @@
 package aps;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
-public class AnaliseRadixSort {
+public class AnaliseRadixSort extends Analise{
 	
-	public Map<Integer, Integer> comparacoesPorTamanhoDoVetor= new HashMap<Integer, Integer>();
-
+	public AnaliseRadixSort() {
+		super("RadixSort");
+	}
+	
 	void countSort(final int arr[], final int n, final int exp) {
 		final int output[] = new int[n]; // output array
 		int i;
@@ -44,27 +42,21 @@ public class AnaliseRadixSort {
 	}
 
 	public static void main(final String[] args) {
-		Map<Integer, List<int[]>> vetoresAleatorios = gerar50VetoresAleatoriosComTamanhosDefinidos();
+		Map<Integer, List<int[]>> vetoresAleatorios = GeradorVetoresAleatorios.gerar();
 		AnaliseRadixSort analiseRadixSort = new AnaliseRadixSort();
 		 for(Entry<Integer, List<int[]>> mapaComOsValores : vetoresAleatorios.entrySet()) {
 			 Integer tamanhoDoVetor = mapaComOsValores.getKey();
 			 List<int[]> listaCom50VetoresDeNPosicoes = mapaComOsValores.getValue();
 			 
 				for (int[] vetor: listaCom50VetoresDeNPosicoes) {
-					final int tamanho = vetor.length;
-					analiseRadixSort.radixsort(vetor, tamanho);
+					analiseRadixSort.sort(vetor);
 //					print(vetor, tamanho);
 				}
 				Integer comparacoes = analiseRadixSort.comparacoesPorTamanhoDoVetor.get(tamanhoDoVetor);
 				double mediaDeComparacoes = comparacoes/tamanhoDoVetor;
-				System.out.println("Testado para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
+				System.out.println("Testado algoritmo "+analiseRadixSort.nomeDoAlgoritmo+"para valores de tamanho "+tamanhoDoVetor + " ocorreu "+comparacoes+" comparacoes que em média ficou "+mediaDeComparacoes);
 		 }
 		
-//		final int arr[] = { 170, 45, 75, 90, 802, 24, 2, 66 };
-//		final int n = arr.length;
-//
-//		radixsort(arr, n);
-//		print(arr, n);
 	}
 
 	static void print(final int arr[], final int n) {
@@ -72,41 +64,13 @@ public class AnaliseRadixSort {
 			System.out.print(arr[i] + " ");
 	}
 
-	void radixsort(final int arr[], final int n) {
+	@Override
+	void sort(int[] arr) {
+		final int n = arr.length;
 		final int m = getMax(arr, n);
 
 		for (int exp = 1; m / exp > 0; exp *= 10)
-			this.countSort(arr, n, exp);
+			this.countSort(arr, n, exp);		
 	}
 
-	static Map<Integer, List<int[]>> gerar50VetoresAleatoriosComTamanhosDefinidos() {
-		final Map<Integer, List<int[]>> valoresAleatorios = new HashMap<Integer, List<int[]>>();
-		final int[] tamanhoDosVetores = { 5, 10, 50, 100, 1000, 10000 };
-		
-		for (final int tamanhoDoVetor : tamanhoDosVetores) {
-			
-			List<int[]> vetores = new ArrayList<int[]>();
-			
-			int crie50Vetores=0;
-			while (crie50Vetores<50) {
-				
-				final int[] vetorDeNPosicoes = new int[tamanhoDoVetor];
-				
-				for (int indice = 0; indice < tamanhoDoVetor; indice++) {
-					final Random rand = new Random();
-					final int upperbound = 50;
-					final int valorAleatorio = rand.nextInt(upperbound);
-					
-					vetorDeNPosicoes[indice] = valorAleatorio;
-				}
-				
-				vetores.add(vetorDeNPosicoes);
-				
-				crie50Vetores++;
-			}
-			valoresAleatorios.put(tamanhoDoVetor, vetores);
-		}
-
-		return valoresAleatorios;
-	}
 }
