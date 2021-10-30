@@ -52,5 +52,4 @@ public class AnaliseBucketSort {
 			System.out.print(el + " ");
 		}
 	}
-
 }
